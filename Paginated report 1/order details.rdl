@@ -1,0 +1,890 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily" xmlns:am="http://schemas.microsoft.com/sqlserver/reporting/authoringmetadata">
+  <rd:ReportUnitType>Mm</rd:ReportUnitType>
+  <rd:ReportID>1a7dde59-ac63-4b29-8146-0b11dae3424c</rd:ReportID>
+  <am:AuthoringMetadata>
+    <am:CreatedBy>
+      <am:Name>PBIRB</am:Name>
+      <am:Version>15.7.1813.16</am:Version>
+    </am:CreatedBy>
+    <am:UpdatedBy>
+      <am:Name>PBIRB</am:Name>
+      <am:Version>15.7.1813.16</am:Version>
+    </am:UpdatedBy>
+    <am:LastModifiedTimestamp>2024-12-20T15:36:23.0605257Z</am:LastModifiedTimestamp>
+  </am:AuthoringMetadata>
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <rd:SecurityType>Integrated</rd:SecurityType>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=.;Initial Catalog=AdventureWorks2012</ConnectString>
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+      <rd:DataSourceID>54eff3ff-c55a-4bc3-841d-f385ef3ed843</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="sales">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@CardType">
+            <Value>=Parameters!CardType.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:DesignerState>
+          <QueryDefinition xmlns="http://schemas.microsoft.com/ReportingServices/QueryDefinition/Relational">
+            <SelectedColumns>
+              <ColumnExpression Schema="Sales" ColumnOwner="SalesOrderHeader" ColumnName="OrderDate" />
+              <ColumnExpression Schema="Sales" ColumnOwner="SalesOrderHeader" ColumnName="ShipDate" />
+              <ColumnExpression Schema="Sales" ColumnOwner="SalesOrderHeader" ColumnName="CustomerID" />
+              <ColumnExpression Schema="Sales" ColumnOwner="SalesOrderHeader" ColumnName="SalesPersonID" />
+              <ColumnExpression Schema="Sales" ColumnOwner="Customer" ColumnName="StoreID" />
+              <ColumnExpression Schema="Sales" ColumnOwner="CreditCard" ColumnName="CreditCardID" />
+              <ColumnExpression Schema="Sales" ColumnOwner="CreditCard" ColumnName="CardType" />
+            </SelectedColumns>
+            <Joins>
+              <Join Type="CROSS JOIN" ColumnOwner="SalesOrderHeader" Schema="Sales" />
+              <Join Type="INNER JOIN" ColumnOwner="Customer" Schema="Sales">
+                <On>
+                  <From ColumnOwner="SalesOrderHeader" Schema="Sales" ColumnName="CustomerID" />
+                  <To ColumnOwner="Customer" Schema="Sales" ColumnName="CustomerID" />
+                </On>
+              </Join>
+              <Join Type="INNER JOIN" ColumnOwner="CreditCard" Schema="Sales">
+                <On>
+                  <From ColumnOwner="SalesOrderHeader" Schema="Sales" ColumnName="CreditCardID" />
+                  <To ColumnOwner="CreditCard" Schema="Sales" ColumnName="CreditCardID" />
+                </On>
+              </Join>
+            </Joins>
+          </QueryDefinition>
+        </rd:DesignerState>
+        <CommandText>SELECT distinct
+  Sales.SalesOrderHeader.OrderDate
+  ,Sales.SalesOrderHeader.ShipDate
+  ,Sales.SalesOrderHeader.CustomerID
+  ,Sales.SalesOrderHeader.SalesPersonID
+  ,Sales.Customer.StoreID
+  ,Sales.CreditCard.CreditCardID
+  ,Sales.CreditCard.CardType
+FROM
+  Sales.SalesOrderHeader
+  INNER JOIN Sales.Customer
+    ON Sales.SalesOrderHeader.CustomerID = Sales.Customer.CustomerID
+  INNER JOIN Sales.CreditCard
+    ON Sales.SalesOrderHeader.CreditCardID = Sales.CreditCard.CreditCardID
+where Sales.CreditCard.CardType = @CardType</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="OrderDate">
+          <rd:TypeName>System.DateTime</rd:TypeName>
+          <DataField>OrderDate</DataField>
+        </Field>
+        <Field Name="ShipDate">
+          <rd:TypeName>System.DateTime</rd:TypeName>
+          <DataField>ShipDate</DataField>
+        </Field>
+        <Field Name="CustomerID">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>CustomerID</DataField>
+        </Field>
+        <Field Name="SalesPersonID">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>SalesPersonID</DataField>
+        </Field>
+        <Field Name="StoreID">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>StoreID</DataField>
+        </Field>
+        <Field Name="CreditCardID">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>CreditCardID</DataField>
+        </Field>
+        <Field Name="CardType">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>CardType</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <rd:DesignerState>
+          <QueryDefinition xmlns="http://schemas.microsoft.com/ReportingServices/QueryDefinition/Relational">
+            <SelectedColumns>
+              <ColumnExpression Schema="Sales" ColumnOwner="CreditCard" ColumnName="CreditCardID" />
+              <ColumnExpression Schema="Sales" ColumnOwner="CreditCard" ColumnName="CardType" />
+              <ColumnExpression Schema="Sales" ColumnOwner="CreditCard" ColumnName="CardNumber" />
+              <ColumnExpression Schema="Sales" ColumnOwner="CreditCard" ColumnName="ExpMonth" />
+              <ColumnExpression Schema="Sales" ColumnOwner="CreditCard" ColumnName="ExpYear" />
+              <ColumnExpression Schema="Sales" ColumnOwner="CreditCard" ColumnName="ModifiedDate" />
+            </SelectedColumns>
+          </QueryDefinition>
+        </rd:DesignerState>
+        <CommandText>SELECT
+  Sales.CreditCard.CreditCardID
+  ,Sales.CreditCard.CardType
+  ,Sales.CreditCard.CardNumber
+  ,Sales.CreditCard.ExpMonth
+  ,Sales.CreditCard.ExpYear
+  ,Sales.CreditCard.ModifiedDate
+FROM
+  Sales.CreditCard</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="CreditCardID">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>CreditCardID</DataField>
+        </Field>
+        <Field Name="CardType">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>CardType</DataField>
+        </Field>
+        <Field Name="CardNumber">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>CardNumber</DataField>
+        </Field>
+        <Field Name="ExpMonth">
+          <rd:TypeName>System.Byte</rd:TypeName>
+          <DataField>ExpMonth</DataField>
+        </Field>
+        <Field Name="ExpYear">
+          <rd:TypeName>System.Int16</rd:TypeName>
+          <DataField>ExpYear</DataField>
+        </Field>
+        <Field Name="ModifiedDate">
+          <rd:TypeName>System.DateTime</rd:TypeName>
+          <DataField>ModifiedDate</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix2">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>19.72406mm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>22.10531mm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>25.01572mm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>25.49767mm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>25.49767mm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>22.85184mm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>24.65982mm</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>12.03854mm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox7">
+                          <rd:DefaultName>Textbox7</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Customer ID</Value>
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox9">
+                          <rd:DefaultName>Textbox9</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Order Date</Value>
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>yyyy-MM-dd</Format>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox11">
+                          <rd:DefaultName>Textbox11</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Ship Date</Value>
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Format>yyyy-MM-dd</Format>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox13">
+                          <rd:DefaultName>Textbox13</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Sales Person ID</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox16">
+                          <rd:DefaultName>Textbox16</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Store ID</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox18">
+                          <rd:DefaultName>Textbox18</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Credit Card ID</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox20">
+                          <rd:DefaultName>Textbox20</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Card Type</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>DimGray</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>12.03854mm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CustomerID">
+                          <rd:DefaultName>CustomerID</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CustomerID.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="OrderDate">
+                          <rd:DefaultName>OrderDate</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!OrderDate.Value</Value>
+                                  <Style>
+                                    <Format>yyyy-MM-dd</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ShipDate">
+                          <rd:DefaultName>ShipDate</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!ShipDate.Value</Value>
+                                  <Style>
+                                    <Format>yyyy-MM-dd</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="SalesPersonID">
+                          <rd:DefaultName>SalesPersonID</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!SalesPersonID.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="StoreID">
+                          <rd:DefaultName>StoreID</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!StoreID.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CreditCardID">
+                          <rd:DefaultName>CreditCardID</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CreditCardID.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CardType">
+                          <rd:DefaultName>CardType</rd:DefaultName>
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CardType.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Details" />
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>sales</DataSetName>
+            <Top>6.16667mm</Top>
+            <Left>3.67242mm</Left>
+            <Height>24.07708mm</Height>
+            <Width>165.35209mm</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>49.74167mm</Height>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Body>
+      <Width>169.02451mm</Width>
+      <Page>
+        <PageHeader>
+          <Height>30.31408mm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Image Name="Image1">
+              <Source>Embedded</Source>
+              <Value>download</Value>
+              <Sizing>FitProportional</Sizing>
+              <Top>0mm</Top>
+              <Left>0mm</Left>
+              <Height>29.60853mm</Height>
+              <Width>31.37242mm</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
+            <Textbox Name="ReportTitle">
+              <rd:WatermarkTextbox>Title</rd:WatermarkTextbox>
+              <rd:DefaultName>ReportTitle</rd:DefaultName>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Order details</Value>
+                      <Style>
+                        <FontFamily>Segoe UI Semibold</FontFamily>
+                        <FontSize>28pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>DarkBlue</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>0mm</Top>
+              <Left>3.13724cm</Left>
+              <Height>16.13958mm</Height>
+              <Width>94.45625mm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <PageFooter>
+          <Height>12.96042mm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="Textbox23">
+              <rd:DefaultName>Textbox23</rd:DefaultName>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Globals!OverallPageNumber</Value>
+                      <Style>
+                        <FontFamily>Arial Rounded MT Bold</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>Maroon</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <LineHeight>10pt</LineHeight>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.41111mm</Top>
+              <Left>67.87167mm</Left>
+              <Height>6mm</Height>
+              <Width>15.21042mm</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <BackgroundColor>White</BackgroundColor>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
+        <PageHeight>29.7cm</PageHeight>
+        <PageWidth>21cm</PageWidth>
+        <LeftMargin>2cm</LeftMargin>
+        <RightMargin>2cm</RightMargin>
+        <TopMargin>2cm</TopMargin>
+        <BottomMargin>2cm</BottomMargin>
+        <ColumnSpacing>0.13cm</ColumnSpacing>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="CardType">
+      <DataType>String</DataType>
+      <Prompt>Card Type</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DataSet1</DataSetName>
+          <ValueField>CardType</ValueField>
+          <LabelField>CardType</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <cl:ComponentMetadata>
+        <cl:HideUpdateNotifications>true</cl:HideUpdateNotifications>
+      </cl:ComponentMetadata>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>CardType</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="download">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAkFBMVEX///8tLS0AAADz8/MZGRkhISEdHR2vr68kJCQuLi4PDw8bGxsqKir4+PgVFRUGBgaRkZGKiorc3NzGxsbl5eWlpaVWVlaenp61tbUWFhbR0dF0dHTr6+tlZWXY2Ng3NzdLS0u+vr6YmJg1NTVgYGB8fHxAQEDKyspOTk6NjY2EhIR3d3djY2M9PT1sbGyqqqpwzUuqAAAMZklEQVR4nO2ci5KiuhZAIRgIIbyfIiogimIL//93Nw9AembOrXvO7T4MU1lVU75oJ8ud7J2ARlEkEolEIpFIJBKJRCKRSCQSiUQikUgkEolEIpFIJBKJRCKRSCQSiUQikWyUIli7Bd9NDU5rN+GbIcTN1m7Dt1LtVdV9rN2K7+RGkKruG3vtdnwbIYZPh6jwHK3dku+i1LvsBJFKdu3aTfkeQmwaiaLdLZWAeO3GfAt3bJyTQlE6oKr4unZrvoEWNLV1z+m9DBPVSrS1G/TlNCC0SMlH4InmVGT+cflmVx/Q5Rby+3ayVwkOV27RV/MRYFLeJquHS1Q3XbVBX45d7UkyGyoVrYz4uWaDvh4foqZ898zoBU29LFZs0JdzRai5Lcdej1UE89Xa8/UsDGNxk4I/q/h3BDUvoWYAsYjKd0jFhzUb9aUsDAfgHfkKg83hnG7VZn0h/tuwuD+Sl0gynavX9Cb8E5ZUwpCbFHmRYE8kmQw8ivgFXn/AFIcZ3sZYRVmOaiCW+8UTWERVQbVm476EB2H1kBsOtZ0WLQAVP/dmW6qKroG7+fG4NASdYgQtiHlO1XbU8NAF/W3j6w1meBeGFTjQ5X6mZeAQCENYK9fKANte/HvqHEOluvZg0LIi9A1hqNNZeFif3HrlRv5fLA3ZyeGatFGrGHMMac65BuWWByM1/BgN2XjLMwdEQUD7pUYzDfT5k3W2xZPiXSlaXZvoWLbcsOXnMGqQ8RLB
+DMktUVkYq+f2Sv/TIeDAhRaGIGHlPs9AnYleSqfghVHStBNvbj113dPmwz1NJOnbMAeHnocxnQ1NN6Kh9ZV4axXj6qgci0SxCakhF9Bar8c9O4lhLw0/iuy1tXP+k6Cq4nxgMcy5YZwULUzBmd6NFobPlvbflVv8NznsRz+i4pPBYpjzEGXg6eUBAF7NHo6GATOMt2XIBOGZNh/1BJ8ybiiGWdX1wNC6B2DnvrmhygxDujZet8l/j37HLheGbMYSQ2p4gYfJkJ1ru14qLUmyheFhY4aNTpdERgSRalqxjk/V2zBnFbLVwaMq0skQb83QvkOVuOEJNEdCDaEwvAnDCtT01q6fwIiXhhU13EwuvSCT6EFFl0m3Xxk2954t6vt0s4YFUBHSUlBFxutnQy2rS+Ad2Lym2qyhC0vtetZOgBqq8zicYmie8s5DQMyzN2oIGvt+pNMzyziPhiyXvoRhCDoztmvsga5YGPZbMoxKjdTKxwPqnw3FrE2JWgg675Trx2GrhrR7ZsoNp5MhHYcGNTzP9dAefODmUb5ZwwjnQaejpeFgzoYDn61lsAPZVg1TqIXAR6iGekanbbyXDjSG5jjzBoeYnUg8NZ6xNGQVfyOrJ1/xfcwNrWwah8N5NszVwxEMbH1vVxs1VA7AY4YpNZzqofGCh4swbNuoMjsXV5+rxZYM65s+G56JuaMxDIzzbDiAZ5xrD/AEj2Kjhl45GeqT4YkZjplGG54lSI3idD4s1xabMrzPhsZFnWP4fOVTqgyuMXCrsHgbRsqx2o5hnbxjeBl76XDR/ZswDPgVGQM9gFdt1/Dxo2Fq6t1tOotxDdlZQ7uuw8kQbNZwUNWfDFuQ9CCO2fqp2Khh+jY0TJXPaaghnAy1IsroAcDj53+3aug7c6ZZGJ7GXlqHmhabB8C+yrd1QzoOhWHNDAPRS/fPhE5JCy19TpnG3JphQw0fU8Xns7alIauIt3oH6th+GxZbM+z+i2HBr/VWBw88
+f+qlG7kyww09RGZD2ks9E15HwxCUh5pl0jDNN20IiZi1iRh66mwYPToIatCEuf1Ttdig4ZRLF4aM/NSTA2BXRd+G2XYM67ehqBY676XPsVqcKpFPtJhfA96uIRoNTSsV4/AwGlage33kpymvWtO8dHOGIoamauqjYT8Zut4NG5YzdOxkxtYNB5N9W4YZEvQxx9C7WdnFGo4gXa4ttmT4QSv+D4b+DibjFVJq+KKG+tA78UYN06PFDFVqGKujYeYnqBQvh5PhccOG+mgIZ0M64XZK8fJkGP9gaFDDjXzPVMQQMcOULAwTOmM7RXR96J25YbNfGvZbM3zwGNaE51Knzasema8dxnhvksSE6Wxojd/F6Adl2IxhPxvSSKrkRtQ93iNTpQE1xZczVKiS+033xDdoN2folbqPH0iNIemJyYV+BevA7r0jUy/dkGF3hh72kHkkSzlCENRZN3UsiMj0AkE8qk64LUOVJOT8jh2BOnaxee/9OMu1Is/qQ0JcrEPy/gAcZD6DeBvVQqvuc+wI0vdYL69xG/143azIh+6OaEDRfCxG1vDbK57qBOyJ6JTQcc+HNPzUZpuyfKzlw7XEeNbUQVn/xl+jpdNrrJMxdpdjnGuKHeXhUHvds//4OPaH67WjXK/PA+XqP2ojDOhBQda9IBpDqWPT/y33CInqmwsJk4M7V+3rOK493/fiLDxF2q8v7dpalFdG6nl1Ogxer7s7OjJZ7oXuLf3NuquW3V0aPYL22PzwsiBatM8ugrytqiwzhjhlxHE8GFlVhS1zn+W16FTVDXH3/HPS3ST7fU68tYfdHiHoALOrhJoWtFnq+bxT+l5KfcK2zfOAqlOiKKDSYcji57NO23npwLorI6r8ErgWJGjn9L/FLzCKGgLsWre+DjU276TBGoYsD+Yo2rbGtYIFVFTTtE9Zp6AfSkU/hog9GWSPBrmOA1C9doWsEuAkvvE+xURzyykPjdi79kl5O6twh8Ff4WJMR97l
+ViZN39Vx1gbFcsBGVd1fACiz9b6gEaSHVFzWpTmjzWL/kKgLAQeq59s9SZpj3/c0dz5HWB6lz/THjyZJ7vRjuNDCMv8VuV/rIQtnWdprj95KBSQ6RUFexd6zuZdl0z+7h5fGbMTlJ9oN7b/3ybO+HJzo6MwGNoAPx+R+T3o/NdpTQcvJKpn1RAcNNfnehEe9WVpax1AikUj+DWpa7ChPQxSGoryxCYh9T47TEXl555u0pOLIYyoybyYe0mrIrs205fjimDCbcvphd9slZeKvuJryd5DVaIwRX+0UgJ+E0BzkTlt8JNDiP0p/jEdaLv8Z/uCgsb4P9FHoEpe96PBHinLBYleJ4u46LnAdcFxtUuNbzSnP8+GMEG8RdrmhrpJSHJBjFXrsjrdrAnqkoaIXezhYZ/aHFBa20NHZ3arRAfc/O9wwgtDx26C9Yv281irD34t9O2yEWb9aGI57JCXIhDyG3r7nT1Q7zBo77F+LtwkdLO70Fn+/0fCMVDHrzi3YfLfKX+A7484kV8x/qjwZwnpf8qaBy8MRMRwNQweym2H3S8MK8z8ThhnG00q/wu5KG9m8DZ1Phrgw+Uhs8FDj0fCo0OVSfgM88fwvhr3ez0e8rJV2lJx7KfncS11tYG3NXah4oyEkmEFEDhl0AiHUdcx/nf7upTu+VZ0wvO3eu/N0u7ftv4q/O7J1bXaDnzONWyjIbZWGRnY2RNh1XaCrvBBQQ5FK+WZYoWOxtwn7ndjCdTTcD/N/1O2Oyir4kCV910JEVIuFYYyTE3Ds2VCMQ83bA3Yo7aV83S8WJqHDV5V75AonYdhY770HE2ulrQh8aL5erwsaB9XS0EboZdHB+dlQUcodG7E/jkNC3+YFrTGdCMPU2k81InDxSpu7jJnGnCr0wlBJdWJpvzDUfeUvMs1hOkYY2hgl4rH2Qudvd/k1o2HlWny+9cnQxtzts2HhW/zT+KWhZrkiUmM9DAFkm4PZlYnctc4QT9WisXhF
+LrCYtVnMUMmurJN5WFR8nedSYGEel8EiLPHQ1MPEQyxy6YB13i9HQ1o8LJp9Md7D1WamHRD9KnL5jHKal7qLK0geYL1SeWCdQUpRAWKgC/hmZiEYf/5buvyTIuNuZ4r2uDh4/0rXO9dmT2fraTEXN8riZnmIrXHs+dkJe/kH9vQ2byXtm88DSSSSTZPd+LkM7Z68WJUL92wxRe+0sLnx6tbwJFvRwnhR2B61iretTfeDkm/NorDtny+0eIRmpnyo9Im2ViJWY6JrwjJmdfEVeqiilVq5Xmv/Cca4MDDpv5oGMRzuuceqfXs9PdjU9BpVrDZWxrG9swM99Btfvv8VUwzZPljngplkwKbPKW1Si1lncme9k2q++KRTu63X2H+GceHjsCgbPg6pSaYwlZDPU/mg8+kLWa2c+Ixme4Y0TJ9uJBKJRCKRSCQSiUQikUgkEolEIpFIJBKJRCKRSCQSiUQikUgkEolEIpFItsJ/AHSGMrwPsMweAAAAAElFTkSuQmCC</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+</Report>
